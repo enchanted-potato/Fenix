@@ -4,13 +4,23 @@ orbs:
   python-ci: cjw296/python-ci@3.3.0
 
 jobs:
-  test:
-    executor: python-ci/default # use the default executor specified by the orb
+  run-tests:
+    docker:
+      - image: cimg/python:3.10.2
     steps:
       - checkout
-      - python-ci/poetry-run-tests # Use a command from the orb in a job's
+      - run:
+          name: install dependencies & run tests
+          command: |
+            export POETRY_VERSION=1.4.2
+            curl -sSL https://install.python-poetry.org | python3
+            export PATH=/root/.local/bin:$PATH
+            poetry config virtualenvs.create false
+            poetry install --no-root --only main --no-interaction --no-ansi
+            python3 -m pytest ./tests
+
 
 workflows:
   test:
     jobs:
-      - test
+      - run-tests
