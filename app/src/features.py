@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from app.src.config import load_yml
+from src.config import load_yml
 
 
 class ProcessDataFrame:
