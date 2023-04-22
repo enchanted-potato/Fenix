@@ -4,7 +4,7 @@ orbs:
   python-ci: cjw296/python-ci@3.3.0
 
 jobs:
-  run-tests:
+  tests-linters:
     docker:
       - image: cimg/python:3.10.2
     steps:
@@ -18,9 +18,12 @@ jobs:
             poetry config virtualenvs.create false
             poetry install --no-root --no-interaction --no-ansi
             python3 -m pytest
+      - run:
+          name: Black Diff and Check
+          command: black --diff . && black --check .
 
 
 workflows:
   test:
     jobs:
-      - run-tests
+      - tests-linters
