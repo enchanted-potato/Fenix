@@ -1,14 +1,13 @@
-import numpy as np
-import altair as alt
 import pandas as pd
 import streamlit as st
 import plotly.express as px
-# from notion_client import Client
+from streamlit_extras.dataframe_explorer import dataframe_explorer
+from streamlit_extras.mention import mention
 
 from src.notion_import import NotionClient, PandasLoader, PandasConverter
 from src.features import ProcessDataFrame
 
-pd.set_option('display.max_columns', 24)
+pd.set_option("display.max_columns", 24)
 
 database_id = "adb7c02377da48e6b8ce50dc4dad8739"
 client = NotionClient("secret_NWpuizQRvbX2embEawThKZd9bw7uaXypUqoaebH6fgC")
@@ -19,40 +18,47 @@ df = loader.load_db(database_id)
 ps = ProcessDataFrame(df)
 df = ps.process_dataframe()
 
-st.header('Welcome to Fenix\'s training app :dog:')
+st.header("Welcome to Fenix's training app :dog:")
 
-filter_value = st.selectbox('Select a filter value', list(df['Status'].unique()) + ["No filter"], index=3)
+filtered_df = dataframe_explorer(df, case=False)
+st.dataframe(filtered_df, use_container_width=True)
 
-if filter_value!= "No filter":
-    filtered_data = df[df['Status'] == filter_value]
-else:
-    filtered_data = df
+mention(
+    label="Notion page",
+    icon="notion",  # Notion is also featured!
+    url="https://www.notion.so/adb7c02377da48e6b8ce50dc4dad8739?v=7b1ad8655ff74379bee0817d6b5eb0f6",
+)
 
-# display the filtered data
-st.write(filtered_data)
-
-status_dict = {
-    "Aced it": "green",
-    "Okay": "blue",
-    "Struggled": "red"
-}
-
-fig = px.scatter(df,
-                  x="Date",
-                  y="Duration (min)",
-                  color="Status",
-                 color_discrete_map=status_dict,
-                 # text="Trazadone"
-                 )
-fig.update_traces(marker=dict(size=12),
-                  selector=dict(mode='markers'))
+status_dict = {"Aced it": "green", "Okay": "blue", "Struggled": "red"}
 
 tab1, tab2, tab3 = st.tabs(["K & S", "Kristia", "Seth"])
 with tab1:
+    fig = px.scatter(
+        filtered_df[filtered_df.Trainer == "Kristia, Seth"],
+        x="Date",
+        y="Duration (min)",
+        color="Status",
+        color_discrete_map=status_dict,
+    )
+    fig.update_traces(marker=dict(size=12), selector=dict(mode="markers"))
     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 with tab2:
-    # Use the native Plotly theme.
+    fig = px.scatter(
+        filtered_df[filtered_df.Trainer == "Kristia"],
+        x="Date",
+        y="Duration (min)",
+        color="Status",
+        color_discrete_map=status_dict,
+    )
+    fig.update_traces(marker=dict(size=12), selector=dict(mode="markers"))
     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 with tab3:
-    # Use the native Plotly theme.
+    fig = px.scatter(
+        filtered_df[filtered_df.Trainer == "Seth"],
+        x="Date",
+        y="Duration (min)",
+        color="Status",
+        color_discrete_map=status_dict,
+    )
+    fig.update_traces(marker=dict(size=12), selector=dict(mode="markers"))
     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
