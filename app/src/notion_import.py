@@ -4,16 +4,21 @@ from datetime import datetime
 from urllib.parse import urljoin
 
 
-class NotionClient():
+class NotionClient:
     def __init__(self, notion_key):
         self.notion_key = notion_key
-        self.default_headers = {'Authorization': f"Bearer {self.notion_key}",
-                                'Content-Type': 'application/json', 'Notion-Version': '2022-06-28'}
+        self.default_headers = {
+            "Authorization": f"Bearer {self.notion_key}",
+            "Content-Type": "application/json",
+            "Notion-Version": "2022-06-28",
+        }
         self.session = requests.Session()
         self.session.headers.update(self.default_headers)
         self.NOTION_BASE_URL = "https://api.notion.com/v1/"
 
-    def query_database(self, db_id, filter_object=None, sorts=None, start_cursor=None, page_size=None):
+    def query_database(
+        self, db_id, filter_object=None, sorts=None, start_cursor=None, page_size=None
+    ):
         db_url = urljoin(self.NOTION_BASE_URL, f"databases/{db_id}/query")
         params = {}
         if filter_object is not None:
@@ -28,7 +33,7 @@ class NotionClient():
         return self.session.post(db_url, json=params, headers=self.default_headers)
 
 
-class PandasConverter():
+class PandasConverter:
     text_types = ["rich_text", "title", "text"]
 
     def response_to_records(self, db_response):
@@ -46,7 +51,16 @@ class PandasConverter():
         return record
 
     def is_supported(self, prop):
-        if prop.get("type") in ["checkbox", "date", "number", "rich_text", "title", "status", "multi_select", "people"]:
+        if prop.get("type") in [
+            "checkbox",
+            "date",
+            "number",
+            "rich_text",
+            "title",
+            "status",
+            "multi_select",
+            "people",
+        ]:
             return True
         else:
             return False
@@ -104,7 +118,7 @@ class PandasConverter():
         return None
 
 
-class PandasLoader():
+class PandasLoader:
     def __init__(self, notion_client, pandas_converter):
         self.notion_client = notion_client
         self.converter = pandas_converter
@@ -122,7 +136,9 @@ class PandasLoader():
                 page_count += 1
                 print(f"Loading page {page_count}")
                 start_cursor = db_response_obj.get("next_cursor")
-                db_response = self.notion_client.query_database(db_id, start_cursor=start_cursor)
+                db_response = self.notion_client.query_database(
+                    db_id, start_cursor=start_cursor
+                )
                 if db_response.ok:
                     db_response_obj = db_response.json()
                     records.extend(self.converter.response_to_records(db_response_obj))
