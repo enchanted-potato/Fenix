@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 import pandas as pd
-from app.src.features import ProcessDataFrame
+from src.features import ProcessDataFrame
 
 
 @pytest.fixture
