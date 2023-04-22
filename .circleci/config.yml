@@ -12,12 +12,12 @@ jobs:
       - run:
           name: install dependencies & run tests
           command: |
-            export POETRY_VERSION=1.4.2
+            export POETRY_VERSION=1.3.1
             curl -sSL https://install.python-poetry.org | python3
             export PATH=/root/.local/bin:$PATH
             poetry config virtualenvs.create false
-            poetry install --no-root --only main --no-interaction --no-ansi
-            python3 -m pytest ./tests
+            poetry install --no-root --no-interaction --no-ansi
+            python3 -m pytest
 
 
 workflows:
