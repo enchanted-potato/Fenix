@@ -20,7 +20,7 @@ jobs:
             python3 -m pytest
       - run:
           name: Black Diff and Check
-          command: black --diff . && black --check .
+          command: poetry black --diff . && poetry black --check .
 
 
 workflows:
