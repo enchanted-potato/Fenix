@@ -1,27 +1,27 @@
 version: 2.1
 
-orbs:
-  python-ci: cjw296/python-ci@3.3.0
-
 jobs:
-  tests-linters:
+  build:
     docker:
       - image: cimg/python:3.10.2
+    working_directory: ~/repo
+    environment:
+      POETRY_VERSION: 1.3.1
     steps:
       - checkout
+      - run: |
+          curl -sSL https://install.python-poetry.org | python3
+          source $HOME/.poetry/env
+      - run: poetry install
       - run:
-          name: install dependencies & run tests
-          command: |
-            export POETRY_VERSION=1.3.1
-            curl -sSL https://install.python-poetry.org | python3
-            export PATH=/root/.local/bin:$PATH
-            poetry config virtualenvs.create false
-            poetry install --no-interaction --no-ansi
-            python3 -m pytest
-            poetry add black
-            black --diff . && black --check .
+          name: Run pytest
+          command: poetry run pytest
+      - run:
+          name: Run black
+          command: poetry run black --check .
 
 workflows:
-  test:
+  version: 2
+  build:
     jobs:
-      - tests-linters
+      - build
