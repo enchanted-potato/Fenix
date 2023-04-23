@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  test & linters:
     docker:
       - image: cimg/python:3.10.2
     working_directory: ~/repo
@@ -19,10 +19,12 @@ jobs:
           command: poetry run pytest
       - run:
           name: Run black
-          command: poetry run black --check .
+          command: |
+            poetry black --diff .
+            poetry run black --check .
 
 workflows:
   version: 2
   build:
     jobs:
-      - build
+      - test & linters
