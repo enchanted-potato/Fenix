@@ -11,8 +11,8 @@ jobs:
       - checkout
       - run: |
           curl -sSL https://install.python-poetry.org | python3
-          source $HOME/.poetry/env
-      - run: poetry install
+          export PATH=/root/.local/bin:$PATH
+          poetry config virtualenvs.create false      - run: poetry install
       - run:
           name: Run pytest
           command: poetry run pytest
