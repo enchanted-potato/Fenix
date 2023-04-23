@@ -1,10 +1,9 @@
 version: 2.1
 
 jobs:
-  tests-and-linters:
+  tests-and-formatting:
     docker:
       - image: cimg/python:3.10.2
-    working_directory: ~/repo
     environment:
       POETRY_VERSION: 1.3.1
     steps:
@@ -22,11 +21,11 @@ jobs:
       - run:
           name: Run black
           command: |
-            poetry run black --diff .
             poetry run black --check .
+            poetry run black --diff .
 
 workflows:
   version: 2
   build:
     jobs:
-      - tests-and-linters
+      - tests-and-formatting
