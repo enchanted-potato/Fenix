@@ -9,11 +9,13 @@ jobs:
       POETRY_VERSION: 1.3.1
     steps:
       - checkout
-      - run: |
-          curl -sSL https://install.python-poetry.org | python3
-          export PATH=/root/.local/bin:$PATH
-          poetry config virtualenvs.create false
-          poetry install --no-interaction --no-ansi
+      - run:
+          name: Install poetry and dependencies
+          conmmand: |
+            curl -sSL https://install.python-poetry.org | python3
+            export PATH=/root/.local/bin:$PATH
+            poetry config virtualenvs.create false
+            poetry install --no-interaction --no-ansi
       - run:
           name: Run pytest
           command: poetry run pytest
