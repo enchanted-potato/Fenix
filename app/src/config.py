@@ -1,6 +1,7 @@
-import yaml
+from typing import Any, Union
+
 import numpy as np
-from typing import Union, Any
+import yaml
 
 
 def load_yml(path: str, replace_null: bool = True) -> dict:

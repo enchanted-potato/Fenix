@@ -1,11 +1,10 @@
 import pandas as pd
-import streamlit as st
 import plotly.express as px
+import streamlit as st
+from src.features import ProcessDataFrame
+from src.notion_import import NotionClient, PandasConverter, PandasLoader
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_extras.mention import mention
-
-from src.notion_import import NotionClient, PandasLoader, PandasConverter
-from src.features import ProcessDataFrame
 
 pd.set_option("display.max_columns", 24)
 

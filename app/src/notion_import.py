@@ -1,7 +1,8 @@
-import requests
-import pandas as pd
 from datetime import datetime
 from urllib.parse import urljoin
+
+import pandas as pd
+import requests
 
 
 class NotionClient:

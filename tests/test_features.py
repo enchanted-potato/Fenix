@@ -1,6 +1,6 @@
 import numpy as np
-import pytest
 import pandas as pd
+import pytest
 from src.features import ProcessDataFrame
 
 
@@ -62,9 +62,9 @@ def test_get_duration_in_min(sample_dataframe):
     pd.testing.assert_series_equal(processor.df["Duration (min)"], expected)
 
 
-def test_get_trainer_names(sample_dataframe, sample_config):
+def test_get_trainer_names(sample_dataframe):
     # Test that trainer names are correctly replaced with values from config file
-    processor = ProcessDataFrame(sample_dataframe, sample_config)
+    processor = ProcessDataFrame(sample_dataframe)
     processor._read_config()
     processor._get_trainer_names()
     expected = pd.Series(["Seth", "Kristia", "Seth, Kristia"], name="Trainer")
