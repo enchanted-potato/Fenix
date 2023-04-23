@@ -18,10 +18,7 @@ jobs:
             poetry config virtualenvs.create false
             poetry install --no-root --no-interaction --no-ansi
             python3 -m pytest
-      - run:
-          name: Black Diff and Check
-          command: poetry black --diff . && poetry black --check .
-
+            black --diff . && black --check .
 
 workflows:
   test:
