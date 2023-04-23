@@ -54,20 +54,6 @@ def test_read_config():
     assert isinstance(processor.config, dict)
 
 
-# def test_get_date(sample_dataframe):
-#     # Test that date is correctly extracted from datetime
-#     processor = ProcessDataFrame(sample_dataframe)
-#     processor._get_date()
-#     expected = pd.Series(["2023-03-25", "2023-03-29", "2023-04-13"], name="Date")
-#     pd.testing.assert_series_equal(processor.df["Date"], expected)
-
-# def test_get_time(sample_dataframe):
-#     # Test that time is correctly extracted from datetime
-#     processor = ProcessDataFrame(sample_dataframe)
-#     processor._get_time()
-#     assert all(processor.df["Time"] == pd.to_datetime(["2022-01-01T10:00:00Z", "2022-01-02T14:30:00Z", "2022-01-03T18:45:00Z"]).tz_convert("Europe/London").time)
-
-
 def test_get_duration_in_min(sample_dataframe):
     # Test that duration is correctly converted to minutes
     processor = ProcessDataFrame(sample_dataframe)
@@ -76,22 +62,10 @@ def test_get_duration_in_min(sample_dataframe):
     pd.testing.assert_series_equal(processor.df["Duration (min)"], expected)
 
 
-# def test_filter_columns(sample_dataframe):
-#     # Test that only specified columns are kept in the dataframe
-#     processor = ProcessDataFrame(sample_dataframe)
-#     processor._filter_columns()
-#     assert all(processor.df.columns == ["Duration", "Tags", "Time", "Trainer", ])
-
-# def test_get_trainer_names(sample_dataframe):
-#     # Test that trainer names are correctly replaced with values from config file
-#     processor = ProcessDataFrame(sample_dataframe)
-#     print(processor.df["Trainer"])
-#     processor._get_trainer_names()
-#     expected = pd.Series(["Seth Olsen", "Kristia K", "Seth Olsen, Kristia K"], name="Trainer")
-#     pd.testing.assert_series_equal(processor.df["Trainer"], expected)
-
-# def test_sort_df(sample_dataframe):
-#     # Test that dataframe is sorted by datetime in descending order
-#     processor = ProcessDataFrame(sample_dataframe)
-#     processor._sort_df()
-#     assert all(processor.df["Datetime"] == pd.to_datetime(["2022-01-03T18:45:00Z", "2022-01-02T14:30:00Z", "2022-01-01T10:00:00Z"]).tz_convert("Europe/London"))
+def test_get_trainer_names(sample_dataframe, sample_config):
+    # Test that trainer names are correctly replaced with values from config file
+    processor = ProcessDataFrame(sample_dataframe, sample_config)
+    processor._read_config()
+    processor._get_trainer_names()
+    expected = pd.Series(["Seth", "Kristia", "Seth, Kristia"], name="Trainer")
+    pd.testing.assert_series_equal(processor.df["Trainer"], expected)
