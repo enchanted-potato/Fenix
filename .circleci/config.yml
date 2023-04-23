@@ -18,7 +18,6 @@ jobs:
             poetry config virtualenvs.create false
             poetry install --no-interaction --no-ansi
             python3 -m pytest
-            export PATH=$PATH:$HOME/.local/bin
             black --diff . && black --check .
 
 workflows:
