@@ -18,6 +18,8 @@ jobs:
       - run:
           name: Run pytest
           command: poetry run pytest
+      - store_test_results:
+          path: test-results
       - run:
           name: Run black
           command: |
