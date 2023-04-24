@@ -1,11 +1,10 @@
 import numpy as np
 import pandas as pd
-from src.config import load_yml
+from src.config import load_yaml
 
 
 class ProcessDataFrame:
-    def __init__(self, df: pd.DataFrame, path_to_file: str = None):
-        self.path = path_to_file
+    def __init__(self, df: pd.DataFrame):
         self.df = df
         self.date = "Datetime"
         self.config = "config.yaml"
@@ -21,7 +20,7 @@ class ProcessDataFrame:
         return self.df
 
     def _read_config(self):
-        self.config = load_yml("app/config.yaml")
+        self.config = load_yaml("app/config.yaml")
 
     def _get_date(self):
         self.df["Date"] = (

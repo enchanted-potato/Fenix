@@ -4,7 +4,7 @@ import numpy as np
 import yaml
 
 
-def load_yml(path: str, replace_null: bool = True) -> dict:
+def load_yaml(path: str, replace_null: bool = True) -> dict:
     """
     Loads a yaml file from the given path and returns a dictionary.
 
