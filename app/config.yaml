@@ -1,3 +1,8 @@
+aws:
+  region_name: eu-north-1
+  secrets_names:
+    - notion_client
+
 display_columns:
   - Duration (min)
   - Status
