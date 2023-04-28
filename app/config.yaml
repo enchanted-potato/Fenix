@@ -17,3 +17,8 @@ display_columns:
 trainers:
   40e597e9-749c-4703-b2ed-466f508c25a8: Seth
   5f909007-268c-43df-9a9d-65de1339e2f0: Kristia
+
+status:
+  Aced it: green
+  Okay: blue
+  Struggled: red
