@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 from src.features import ProcessDataFrame
-
+from omegaconf import DictConfig
 
 @pytest.fixture
 def sample_dataframe():
@@ -51,7 +51,7 @@ def test_read_config():
     # Test that config is loaded successfully
     processor = ProcessDataFrame(pd.DataFrame())
     processor._read_config()
-    assert isinstance(processor.config, dict)
+    assert isinstance(processor.config, DictConfig)
 
 
 def test_get_duration_in_min(sample_dataframe):
