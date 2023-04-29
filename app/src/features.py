@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from src.config import load_yaml
+from src.config import Config
 
 
 class ProcessDataFrame:
@@ -16,11 +16,12 @@ class ProcessDataFrame:
         self._get_duration_in_min()
         self._get_trainer_names()
         self._sort_df()
-        self._filter_columns()
+        self._filter_columns(self.config.display_columns)
         return self.df
 
     def _read_config(self):
-        self.config = load_yaml("app/config.yaml")
+        config = Config()
+        self.config = config.get_final_config()
 
     def _get_date(self):
         self.df["Date"] = (
@@ -43,25 +44,28 @@ class ProcessDataFrame:
         ]
         self.df["Duration (min)"] = self.df["Duration (min)"].round(2)
 
-    def _filter_columns(self):
-        self.df = self.df[self.config["display_columns"]]
+    def _filter_columns(self, display_columns):
+        self.df.drop(
+            columns=[col for col in self.df.columns if col not in display_columns],
+            inplace=True,
+        )
 
     def _get_trainer_names(self):
         self.df["Trainer"] = self.df["Trainer"].map(
             lambda lst: [self.config["trainers"].get(item, item) for item in lst]
         )
         self.df["Trainer"] = self.df["Trainer"].astype(str)
-        self.df["Trainer"] = self.df["Trainer"].apply(_split_list)
+        self.df["Trainer"] = self.df["Trainer"].apply(self._split_list)
 
     def _sort_df(self):
         self.df.sort_values(["Datetime"], ascending=False, inplace=True)
 
-
-def _split_list(list_str):
-    if pd.isnull(list_str):
-        return np.nan
-    else:
-        list_str = list_str.replace("['", "")
-        list_str = list_str.replace("']", "")
-        list_str = list_str.replace("'", "")
-        return list_str
+    @staticmethod
+    def _split_list(list_str):
+        if pd.isnull(list_str):
+            return np.nan
+        else:
+            list_str = list_str.replace("['", "")
+            list_str = list_str.replace("']", "")
+            list_str = list_str.replace("'", "")
+            return list_str
