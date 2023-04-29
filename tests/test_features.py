@@ -4,6 +4,7 @@ import pytest
 from src.features import ProcessDataFrame
 from omegaconf import DictConfig
 
+
 @pytest.fixture
 def sample_dataframe():
     return pd.DataFrame(

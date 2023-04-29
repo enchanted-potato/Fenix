@@ -14,8 +14,7 @@ config = config.get_final_config()
 
 st.header("Welcome to Fenix's training app :dog:")
 
-if st.button('Refresh data'):
-
+if st.button("Refresh data"):
     database_id = config.aws.secrets.NOTION_DATABASE_ID
     client = NotionClient(config.aws.secrets.NOTION_CLIENT_TOKEN)
     converter = PandasConverter()
