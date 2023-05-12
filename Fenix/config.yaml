@@ -2,17 +2,21 @@ aws:
   region_name: eu-north-1
   secrets_names:
     - notion_client
+    - fenix_mysql
+  s3:
+    bucket: fenix-notion-file-dump
 
 display_columns:
+  - Day
+  - Time
   - Duration (min)
   - Status
-  - Date
-  - Time
-  - Trazadone
-  - Tired
-  - Weather
-  - Recording
   - Trainer
+  - Weather
+  - Tired
+  - Trazadone
+  - Recording
+  - Date
 
 trainers:
   40e597e9-749c-4703-b2ed-466f508c25a8: Seth
@@ -20,5 +24,5 @@ trainers:
 
 status:
   Aced it: green
-  Okay: blue
+  Okay: orange
   Struggled: red
