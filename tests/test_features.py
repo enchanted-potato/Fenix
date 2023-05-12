@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 import pytest
-from src.features import ProcessDataFrame
 from omegaconf import DictConfig
+from src.features import ProcessDataFrame
 
 
 @pytest.fixture

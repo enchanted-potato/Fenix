@@ -1,10 +1,11 @@
 import json
+
 from omegaconf import OmegaConf
 from src.secrets import AwsSecretsManager
 
 
 class Config:
-    def __init__(self, config_path: str = "app/config.yaml"):
+    def __init__(self, config_path: str = "Fenix/config.yaml"):
         self.config = OmegaConf.merge(OmegaConf.load(config_path), OmegaConf.from_cli())
 
     def get_aws_secret(self, secret_name: str) -> json:
@@ -14,5 +15,5 @@ class Config:
     def get_final_config(self):
         config = self.config.copy()
         for secret_name in config.aws.secrets_names:
-            config.aws.secrets = self.get_aws_secret(secret_name)
+            config.aws[secret_name] = self.get_aws_secret(secret_name)
         return config
