@@ -30,13 +30,13 @@ jobs:
             poetry run black --diff .
   aws-ecr:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/base:stable # use a base image with docker pre-installed
     steps:
       - setup_remote_docker:
           version: 20.10.11
-      - aws-ecr/build-and-push-image:
+      - aws-ecr/build-and-push-image: # all aws credentials saved in Circle CI
           dockerfile: Dockerfile
-          repo: circleci-push-image-demo
+          repo: fenix-ecr-repo
           tag: latest,$CIRCLE_SHA1
 
 workflows:
