@@ -34,14 +34,30 @@ jobs:
     steps:
       - setup_remote_docker:
           version: 20.10.11
-      - aws-ecr/build-and-push-image: # all aws credentials saved in Circle CI
-          dockerfile: Dockerfile
-          repo: fenix-ecr-repo
+      - aws-ecr/build-and-push-image: # uses the aws-ecr orb
+          dockerfile: Dockerfile # all aws credentials saved in Circle CI
+          repo: fenix-ecr-repo # ecr repo from aws
           tag: latest,$CIRCLE_SHA1
+  deploy:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: Deploy via terraform
+          command: |
+            cd tf
+            terraform init
+            terraform apply -input=false -auto-approve -var "image_tag=${CIRCLE_SHA1}"
 
 workflows:
   version: 2
   build:
     jobs:
       - tests-and-formatting
-      - aws-ecr
+      - aws-ecr:
+          requires:
+            - tests-and-formatting
+      - deploy:
+          requires:
+            - aws-ecr
