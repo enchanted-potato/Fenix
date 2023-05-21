@@ -15,6 +15,7 @@ build/
 *.pyc
 
 # Miscellaneous
+.env
 *.swp
 .DS_Store
 *.bak
@@ -22,3 +23,5 @@ build/
 *~
 *.idea
 *.pytest_cache
+tf/.terraform/
+tf/packages/
