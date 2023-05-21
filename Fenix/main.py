@@ -10,10 +10,10 @@ from src.s3 import S3FileHandler
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_extras.mention import mention
 
-try:
-    os.environ["AWS_PROFILE"] = "enchanted-potato"
-except botocore.exceptions.ProfileNotFound:
-    print("AWS profile not found. Using default profile.")
+# try:
+#     os.environ["AWS_PROFILE"] = "enchanted-potato"
+# except botocore.exceptions.ProfileNotFound:
+#     print("AWS profile not found. Using default profile.")
 
 config, authenticator, database_id, client_token = load_config()
 
@@ -47,7 +47,7 @@ else:
     ps.sort_columns(config.display_columns)
 
     # Display data and charts
-    st.header("Welcome to Fenix's training Fenix :dog:")
+    st.header("Welcome to Fenix's training app :dog:")
     filtered_df = dataframe_explorer(ps.df, case=False)
     st.dataframe(filtered_df, use_container_width=True)
 
