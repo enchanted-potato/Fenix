@@ -1,19 +1,12 @@
-import os
 from datetime import datetime
 
 import plotly.express as px
 import streamlit as st
-import botocore
 from src.database import Database
 from src.notion_helpers import load_config, load_notion_db, process_notion_db
 from src.s3 import S3FileHandler
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_extras.mention import mention
-
-# try:
-#     os.environ["AWS_PROFILE"] = "enchanted-potato"
-# except botocore.exceptions.ProfileNotFound:
-#     print("AWS profile not found. Using default profile.")
 
 config, authenticator, database_id, client_token = load_config()
 
