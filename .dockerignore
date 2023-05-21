@@ -1,0 +1,38 @@
+# Ignore files and directories commonly excluded in Docker builds
+
+# Ignore Docker specific files
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.yaml
+
+# Ignore development and version control files
+.git
+.gitignore
+.vscode
+.idea
+*.md
+*.txt
+*.log
+
+# Ignore build artifacts
+node_modules
+dist
+build
+out
+
+# Ignore editor specific files
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignore test and documentation files
+test
+tests
+coverage
+doc
+docs
+
+# Ignore any other files or directories specific to your project
+tf
