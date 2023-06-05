@@ -29,6 +29,7 @@ else:
             S3FileHandler(bucket_name="fenix-notion-file-dump").upload_df_to_s3(
                 full_df, f"notiondata_{timestamp_str}.csv"
             )
+            print("Max s3 date: {full_df.Datetime.max()}")
             st.write(f"Notion data saved to s3 -> notiondata_{timestamp_str}.csv")
 
     with Database(db="fenixdatabase") as db:

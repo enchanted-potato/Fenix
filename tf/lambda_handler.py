@@ -37,10 +37,11 @@ def lambda_handler(event, context):
 
     # get the max date in the database
     date = get_max_db_date("notion")
-    print("Date:", date)
+    print("Max db date:", date)
 
     # filter the s3 rows greater than the max date
     if date:
+        print(f"Max s3 date: {max(df.Datetime)}")
         df = df[df.Datetime > date]
 
     # insert new rows in database
