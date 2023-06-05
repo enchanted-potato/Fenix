@@ -8,6 +8,9 @@ from src.s3 import S3FileHandler
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_extras.mention import mention
 
+import os
+os.environ['AWS_PROFILE'] = 'enchanted-potato'
+
 config, authenticator, database_id, client_token = load_config()
 
 if st.session_state.get("authentication_status") is None:
@@ -29,7 +32,7 @@ else:
             S3FileHandler(bucket_name="fenix-notion-file-dump").upload_df_to_s3(
                 full_df, f"notiondata_{timestamp_str}.csv"
             )
-            print("Max s3 date: {full_df.Datetime.max()}")
+            print(f"Max s3 date: {full_df.Datetime.max()}")
             st.write(f"Notion data saved to s3 -> notiondata_{timestamp_str}.csv")
 
     with Database(db="fenixdatabase") as db:
