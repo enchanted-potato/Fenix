@@ -8,9 +8,6 @@ from src.s3 import S3FileHandler
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_extras.mention import mention
 
-import os
-os.environ['AWS_PROFILE'] = 'enchanted-potato'
-
 config, authenticator, database_id, client_token = load_config()
 
 if st.session_state.get("authentication_status") is None:
