@@ -12,11 +12,11 @@ resource "aws_default_vpc" "default_vpc" {
 
 # Providing a reference to our default subnets
 resource "aws_default_subnet" "default_subnet_a" {
-  availability_zone = "eu-north-1a"
+  availability_zone = var.subnet_a
 }
 
 resource "aws_default_subnet" "default_subnet_b" {
-  availability_zone = "eu-north-1b"
+  availability_zone = var.subnet_b
 }
 
 resource "aws_ecs_task_definition" "fenix_task" {
@@ -48,8 +48,8 @@ resource "aws_ecs_task_definition" "fenix_task" {
   DEFINITION
   requires_compatibilities = ["FARGATE"] # Stating that we are using ECS Fargate
   network_mode             = "awsvpc"    # Using awsvpc as our network mode as this is required for Fargate
-  memory                   = 512         # Specifying the memory our container requires
-  cpu                      = 256         # Specifying the CPU our container requires
+  memory                   = var.task_definition_memory # Specifying the memory our container requires
+  cpu                      = var.task_definition_cpu    # Specifying the CPU our container requires
   execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"
   task_role_arn            = "${aws_iam_role.task_role.arn}"
 }

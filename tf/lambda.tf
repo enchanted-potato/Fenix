@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-north-1"
+  region = var.aws_region
 }
 
 data "aws_s3_bucket" "existingbucket" {
@@ -13,12 +13,6 @@ data "aws_secretsmanager_secret" "db_secrets" {
 
 data "aws_secretsmanager_secret_version" "db_secrets_v" {
   secret_id = data.aws_secretsmanager_secret.db_secrets.id
-}
-
-locals {
-  db_creds = jsondecode(
-    data.aws_secretsmanager_secret_version.db_secrets_v.secret_string
-  )
 }
 
 resource "aws_lambda_layer_version" "lambda_layer" {
@@ -36,6 +30,7 @@ resource "aws_lambda_function" "s3_to_mysql" {
   architectures = ["arm64"]
   source_code_hash = filebase64sha256("lambda_function.zip")  # the SHA-256 hash of your ZIP file
   layers = [aws_lambda_layer_version.lambda_layer.arn]
+  tags = local.resource_tags
   environment {
     variables = {
       USERNAME = local.db_creds.username
